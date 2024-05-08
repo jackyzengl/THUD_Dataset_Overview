@@ -13,7 +13,7 @@ If you want to use our dataset, please carefully read our instructions (see Home
 
 ## Dataset comparison
 The THUD dataset has unique advantages compared to other publicly available datasets, and the differentiation of the THUD dataset can be directly felt in the table below.
-![plot](docs/dataset_cov.png)
+![plot](docs/dataset_cov_2.png)
 
 ## Dataset structure
 The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use, we have uniformly processed the structure of the dataset. For most scenarios, they have similar structures:
@@ -115,7 +115,7 @@ Especially, due to the large area of some scenes, partitioning was used for coll
 ##
 ## Data processing script
 Real scene data is collected using independent frames as the collection unit. When summarizing the dataset, it has already been processed into an independent and usable form (refer to the file directory). Synthetic scene data is collected in a serialization manner, and some annotated data exists in a long serialization form in the JSON file. We have prepared the original synthetic dataset and data processing scripts for researchers to quickly process the simulation dataset. In addition, we have also prepared other scripts for use. For details, please refer to:
- ```Data_processing```
+ ```Data_processing```.
 As long serialization labels in synthetic scene:
 ```
 {
