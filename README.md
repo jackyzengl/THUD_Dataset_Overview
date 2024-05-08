@@ -118,7 +118,7 @@ The statistics about the dataset are as follows:
 ## Citation
 If you find the code useful, please consider citing:
 ```
-@inproceedings{2023ICRA,
+@inproceedings{2024ICRA,
       title={Mobile Oriented Large-Scale Indoor Dataset for Dynamic Scene Understanding},
       author={Yi-Fan Tang, Cong Tai, Fang-Xin Chen, Wan-Ting Zhang, Tao Zhang, Yong-Jin Liu, Long Zeng*},
       booktitle = {Mobile Oriented Large-Scale Indoor Dataset for Dynamic Scene Understanding, submitted to IEEE International Conference Robotic and Automation, 2024.}
