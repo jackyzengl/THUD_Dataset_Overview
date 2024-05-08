@@ -4,8 +4,28 @@ We present a mobile robot oriented large-scale indoor dataset, denoted as THUD (
 the THUD dataset construction is first detailed, including organization, acquisition, and annotation methods. It comprises
 both real-world and synthetic data, collected with a real robot platform and a physical simulation platform, respectively. Our current dataset includes 13 larges-scale dynamic scenarios, 90K image frames, 20M 2D/3D bounding boxes of static and dynamic objects, camera poses, and IMU. The dataset is still continuously expanding. Then, the performance of mainstream indoor scene understanding tasks, e.g. 3D object detection, semantic segmentation, and robot relocalization, is evaluated on our THUD dataset. These experiments reveal serious challenges for some robot scene understanding tasks in dynamic scenes. By sharing this dataset, we aim to foster and iterate new mobile robot algorithms quickly for robot actual working dynamic environment, i.e. complex crowded dynamic scenes.
 
-## Installation
-### Environment setup
+## Homepage
+### Website
+You can have a detailed understanding of our project from this [website](https://jackyzengl.github.io/THUD-Robotic-Dataset.github.io/).
+
+### Download
+If you want to use our dataset, please carefully read our instructions (see Homepage) and truthfully fill in the required information, which is important for us.
+
+## Dataset structure
+The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use, we have uniformly processed the structure of the dataset. For most scenarios, they have similar structures:
+
+- THUD
+ - Real_Scenes
+ - Synthetic_Scenes
+
+
+
+
+
+
+
+
+
 Clone the repository
 ```
 git clone https://github.com/jackyzengl/GRID.git
