@@ -310,7 +310,7 @@ As long serialization labels in synthetic scene:
           ]
         }
       ]
-    },
+    },...other ID
 ```
 ## Data statistics
 The statistics about the dataset are as follows:
