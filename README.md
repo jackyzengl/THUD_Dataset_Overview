@@ -13,11 +13,47 @@ If you want to use our dataset, please carefully read our instructions (see Home
 
 ## Dataset structure
 The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use, we have uniformly processed the structure of the dataset. For most scenarios, they have similar structures:
-
+##
 - THUD
-  -> Real_Scenes
-  -> Synthetic_Scenes
-
+  - Real_Scenes
+    - Store
+      - static
+        - Capture_1
+          - Camera_intrinsics
+            - camera-intrinsics.txt
+          - Depth
+            - frame-000000.depth.png
+            - frame-000001.depth.png
+            - ...
+          - Label
+            - 2D_Object_Detection
+              - frame-000000.json
+              - frame-000001.json
+              - ...
+            - 3D_Object_Detection
+              - frame-000000.txt
+              - frame-000001.txt
+              - ...
+            - Pose
+              - frame-000000.pose.txt
+              - frame-000001.pose.txt
+              - ...
+            - Semantic
+              - frame-000000.png
+              - frame-000000.png
+              - ...
+          - Pointcloud
+            - frame-000000.point.ply
+            - frame-000001.point.ply
+            - ...
+          - RGB
+            - frame-000000.color.png
+            - frame-000001.color.png
+            - ...
+        - Capture_2(Same structure as Capture_1)
+      - dynamic(Same structure as static)
+  - Synthetic_Scenes
+##
 
 
 
