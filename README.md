@@ -15,8 +15,8 @@ If you want to use our dataset, please carefully read our instructions (see Home
 The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use, we have uniformly processed the structure of the dataset. For most scenarios, they have similar structures:
 
 - THUD
- - Real_Scenes
- - Synthetic_Scenes
+  - Real_Scenes
+    - Synthetic_Scenes
 
 
 
