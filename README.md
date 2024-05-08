@@ -11,6 +11,10 @@ You can have a detailed understanding of our project from this [website](https:/
 ### Download
 If you want to use our dataset, please carefully read our instructions (see Homepage) and truthfully fill in the required information, which is important for us.
 
+## Dataset comparison
+The THUD dataset has unique advantages compared to other publicly available datasets, and the differentiation of the THUD dataset can be directly felt in the table below.
+![plot](docs/dataset_cov.png)
+
 ## Dataset structure
 The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use, we have uniformly processed the structure of the dataset. For most scenarios, they have similar structures:
 ##
@@ -50,136 +54,73 @@ The THUD dataset contains 8 real scenes and 5 synthetic Scenes. For ease of use,
             - frame-000000.color.png
             - frame-000001.color.png
             - ...
-        - Capture_2(Same structure as Capture_1)
+        - Other Cpature(Same structure as Capture_1)
       - dynamic(Same structure as static)
+    - Other Scenes(Same structure as Store)
   - Synthetic_Scenes
+    - Gym
+      - static
+        - Capture_1
+          - Depth
+          - Label
+            - annotation_info
+              - annotation_definitions
+                - bounding box
+                  - description.txt
+                  - format.txt
+                  - id.txt
+                  - label_num.txt
+                  - name.txt
+                  - spec.txt
+                - bounding box 3D(Same structure as bounding box)
+                - instance segmentation(Same structure as bounding box)
+                - semantic segmentation(Same structure as bounding box)
+              - version
+                - info.txt
+              - annotation_definitions.json
+              - metric_definitions.json
+              - metrics_000.json
+              - sensors.json
+            - Instance
+            - Semantic
+            - captures_000.json
+            - captures_001.json
+            - ...
+          - RGB
+        - Other Cpature(Same structure as Capture_1)
+      - dynamic(Same structure as static)
+    - Other Scenes(Same structure as Gym)
 ##
+Especially, due to the large area of some scenes, partitioning was used for collection (the poses in different partitions are still consistent), such as in Real_Scenes's Canteen:
+##
+- THUD
+  - Real_Scenes
+    - canteen
+      - dynamic
+        - part_1
+         - Capture_1
+         - Capture_2
+        - part_2
+        - part_3
+    - other scenes
+##
+## Data processing script
+Real scene data is collected using independent frames as the collection unit. When summarizing the dataset, it has already been processed into an independent and usable form (refer to the file directory). Synthetic scene data is collected in a serialization manner, and some annotated data exists in a long serialization form in the JSON file. We have prepared the original synthetic dataset and data processing scripts for researchers to quickly process the simulation dataset. In addition, we have also prepared other scripts for use. For details, please refer to:
+ ```Data_processing```
+## Data statistics
+The statistics about the dataset are as follows:
+![plot](docs/dataset_sta.png)
 
-
-
-
-
-
-
-
-Clone the repository
-```
-git clone https://github.com/jackyzengl/GRID.git
-cd ./GRID
-```
-Setup conda environment
-```
-conda create --name grid python=3.8.16
-conda activate grid
-pip install -r requirements.txt
-```
-### Instructor embedding installation
-Install instructor from source code
-```
-pip install -e instructor-embedding/.
-```
-
-## Download dataset
-Download our [dataset](https://github.com/jackyzengl/GRID_Dataset) to path ```dataset/```.
-
-
-## Preprocess dataset
-The parameter required by the data preprocessor is defined in ```${workspace}/hparams.cfg``` [data_preprocessor] section. 
-Run data preprocessor to obtain all text embeddings required during training, 
-and save the data to the disk. The path of data to be preprocessed is ```${workspace}/dataset/``` by default. The pre-processor saves each processed sample as a ```.pt``` file under the directory ```${workspace}/preprocess_data/```.
-Please give one device only as instructor does not support multiple devices.
-```
-python run_preprocess_data.py --gpu_devices <your device>
-```
-If you want to specify the dataset location, pass it by argument ```--data_path``` 
-```
-python run_preprocess_data.py --gpu_devices <your device> --data_path /path/to/data
-```
-Use``` python run_preprocess_data.py --help``` to see more available options.
-
-## Train a new model
-### step 1 setup configuration
-set up configuration in ```hparams.cfg```
-
-### step 2 start training
-This will fit and predict a model from data preprocessed in ```${workspace}/preprocess_data/```
-```
-python train.py 
-```
-If your preprocessed dataset is placed somewhere else, parse the data location into the script by
-```
-python train.py --preprocessed_data_path /path/to/data
-```
-Use ```python train.py --help``` to see more arguments such as setting your gpu devices for training.
-
-## Continue training from a checkpoint
-This will continue training, and predict output from the training result.
-
-A checkpoint generated by a trained model is saved to ```${workspace}/logs/${experiment_name}/${version_name}/checkpoints/{checkpoint_name}``` with an extension ```.ckpt``` by default.
-
-To run from the checkpoint, the model automatically reads the hyper-parameter which was generated along with the checkpoint. It is usually saved in ```${workspace}/logs/${experiment_name}/${version_name}/hparams.yaml```. 
-
-With the default pre-processed data location, use:
-```
-python train.py --fit_flag True --from_ckpt_flag True --ckpt_path /path/to/checkpoint
-```
-Specify the dataset location by argument ```--preprocessed_data_path``` if necessary.
-<br/>
-
-
-## Predict from a checkpoint
-This will not train any models but directly predict results from the checkpoint. 
-
-The checkpoint file path requires a ```hparams.cfg``` or ```hparams.yaml``` at related path ```checkpoints/../..``` Typically, ```hparams.yaml``` is generated automatically when running ```train.py```.
-
-With the default data location, use:
-```
-python train.py --fit_flag False --from_ckpt_flag True --ckpt_path /path/to/checkpoint
-```
-Specify the dataset location by argument ```--preprocessed_data_path``` if necessary.
-
-## Evaluation
-### Subtask accuracy
-Our network takes an instruction, a scene graph and a robot graph as input, and predicts a subtask which consists of an action and an object. We use subtask accuracy to evaluate the accuracy of each prediction.
-
-#### Calculate subtask accuracy
-Running a prediction automatically calculates the subtask accuracy. 
-**Please use only one gpu device to infer results** to log the complete prediction labels.
-The prediction creates the ```sub_task_label.xlsx``` and ```accuracy.xlsx``` files in the new checkpoint directory ```logs/{experiment name}/version_{version_number}/```.
-
-```sub_task_label.xlsx``` shows the prediction result for each sample, and ```accuracy.xlsx``` gives the overall accuracy calculation for all subtasks.
-
-### Task accuracy
-Each task is associated with a series of subtasks. A task is considered as successful when all predicted subtasks associated with the task are correct. 
-
-#### Calculate task accuracy
-To obtain task accuracy, change the ```raw_data_path_``` and ```output_root_path_``` variables in your ```run_evaluation.py``` file. 
-
-```raw_data_path_:```is the path of the raw dataset instead of the preprocessed data.
-
-```output_root_path_:```  the folder of the subtask accuracy file generated in the prediction we made in the previous step.
-
-Run
-```
-python run_evaluation.py
-```
-The task accuracy is updated in ```accuracy.xlsx```. 
-
-The new file ```sub_task_accuracy.xlsx``` gives the task accuracies for tasks associated with different numbers of subtasks.
-
-## TODO
+<!-- ## TODO
 - [x] Release training codes.
 - [ ] Release checkpoints.
-- [ ] Release inference codes.
-
-
+- [ ] Release inference codes. -->
 ## Citation
 If you find the code useful, please consider citing:
 ```
-@article{ni2024grid,
-      title={GRID: Scene-Graph-based Instruction-driven Robotic Task Planning}, 
-      author={Zhe Ni and Xiaoxin Deng and Cong Tai and Xinyue Zhu and Qinghongbing Xie and Weihang Huang and Xiang Wu and Long Zeng},
-      journal={arXiv preprint arXiv:2309.07726},
-      year={2024}
+@inproceedings{2023ICRA,
+      title={Mobile Oriented Large-Scale Indoor Dataset for Dynamic Scene Understanding},
+      author={Yi-Fan Tang, Cong Tai, Fang-Xin Chen, Wan-Ting Zhang, Tao Zhang, Yong-Jin Liu, Long Zeng*},
+      booktitle = {Mobile Oriented Large-Scale Indoor Dataset for Dynamic Scene Understanding, submitted to IEEE International Conference Robotic and Automation, 2024.}
 }
 ```
